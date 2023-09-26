@@ -235,13 +235,13 @@ table.onmouseout  = function(event) {
 
   function sortTableAsc(columnIndex){
 
-    return [...rows].sort((a,b) => a.children[columnIndex].innerText < b.children[columnIndex].innerText ? 1 : -1);
+    return [...rows].sort((a,b) => a.children[columnIndex].innerText > b.children[columnIndex].innerText ? 1 : -1);
     
   }
 
   function sortTableDesc(columnIndex){
 
-    return [...rows].sort((a,b) => a.children[columnIndex].innerText > b.children[columnIndex].innerText ? 1 : -1);
+    return [...rows].sort((a,b) => a.children[columnIndex].innerText < b.children[columnIndex].innerText ? 1 : -1);
 
   }
 
