@@ -176,48 +176,49 @@ table.onmouseout  = function(event) {
 
 //   }
 
-    
-
-      
-
-table.addEventListener('click', function(event) {
-
-        let headTable = table.tHead;
-        let bodyTableRows = table.tBodies[0];
-        let rows = bodyTableRows.children;
-        let trigger = true;
-        if (event.target.parentNode === headTable.rows[0]) {
-         
-        const columnIndex = [...headTable.rows[0].cells].indexOf(event.target);
-
-        sort(columnIndex);   
-              
-               console.log(`${columnIndex}`);
   
-          
-        } else if (event.target.closest('.elem')){
-          
-            const columnIndex = [...bodyTableRows.rows].indexOf(event.target.closest('.elem'));
+  function funcTable(table){
 
-            let poput = document.getElementById('popup-overlay');
-            poput.style.display = "block";
-            poput.innerHTML = `
-              <div id="popup" data-id="${columnIndex}">
-              <p>Вы действительно хотите удалить запись?</p>
-              <div>
-                  <button id="buttonDelete" data-action="buttonDelete">ДА!</button>
-                  <button id="buttonUnDelete" data-action="buttonUnDelete">НЕТ!</button>
-              </div>
-              </div>`;  
+    let headTable = table.tHead;
+    let bodyTableRows = table.tBodies[0];
+    let rows = bodyTableRows.children;
+    let trigger = true;
 
-            new popupWindow(popup);
-            console.log(`Кликнули в на строку ${columnIndex}`);
+    table.addEventListener('click', function(event) {
+
+      if (event.target.parentNode === headTable.rows[0]) {
+       
+      const columnIndex = [...headTable.rows[0].cells].indexOf(event.target);
+
+      sort(columnIndex);   
             
-        } 
+        //console.log(`${columnIndex}`);
+
+      } else if (event.target.closest('.elem')){
+        
+          const columnIndex = [...bodyTableRows.rows].indexOf(event.target.closest('.elem'));
+
+          let poput = document.getElementById('popup-overlay');
+
+          poput.style.display = "block";
+
+          poput.innerHTML = `
+            <div id="popup" data-id="${columnIndex}">
+            <p>Вы действительно хотите удалить запись?</p>
+            <div>
+                <button id="buttonDelete" data-action="buttonDelete">ДА!</button>
+                <button id="buttonUnDelete" data-action="buttonUnDelete">НЕТ!</button>
+            </div>
+            </div>`;  
+
+          new popupWindow(popup);
+          console.log(`Кликнули в на строку ${columnIndex}`);
+          
+      } 
 
 });
 
-function sort(columnIndex){
+  function sort(columnIndex){
 
     if(trigger) {
 
@@ -230,20 +231,22 @@ function sort(columnIndex){
       bodyTableRows.replaceChildren(...sortTableDesc(columnIndex));
 
     }
+  }
+
+  function sortTableAsc(columnIndex){
+
+    return [...rows].sort((a,b) => a.children[columnIndex].innerText < b.children[columnIndex].innerText ? 1 : -1);
+    
+  }
+
+  function sortTableDesc(columnIndex){
+
+    return [...rows].sort((a,b) => a.children[columnIndex].innerText > b.children[columnIndex].innerText ? 1 : -1);
+
+  }
+
 }
-
-function sortTableAsc(columnIndex){
-
-  return [...rows].sort((a,b) => a.children[1].innerText < b.children[1].innerText ? -1 : 1);
-  
-}
-
-function sortTableDesc(columnIndex){
-
-  return [...rows].sort((a,b) => a.children[1].innerText > b.children[1].innerText ? -1 : 1);
-  
-}
-
+funcTable(document.querySelector("#table"))
 
 
 
